@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futbol Bahis Sitesi</title>
+</head>
+<body>
+    <h1>Futbol Bahis Sitesi</h1>
+    
+    <form method="POST">
+        <h2>Bahis Kuponunuzu Oluşturun</h2>
+        {% for i in range(8) %}
+            <p>
+                <strong>{{ matches[i]["home"] }} vs {{ matches[i]["away"] }}</strong><br>
+                <label>
+                    <input type="radio" name="bet{{i}}" value="{{ matches[i]['home'] }}"> {{ matches[i]["home"] }} (Oran: {{ odds[i][matches[i]['home']] }})
+                </label>
+                <label>
+                    <input type="radio" name="bet{{i}}" value="{{ matches[i]['away'] }}"> {{ matches[i]["away"] }} (Oran: {{ odds[i][matches[i]['away']] }})
+                </label>
+                <label>
+                    <input type="radio" name="bet{{i}}" value="Draw"> Beraberlik (Oran: {{ odds[i]["Draw"] }})
+                </label>
+            </p>
+        {% endfor %}
+        
+        <label for="stake">Bahis Miktarı (TL):</label>
+        <input type="number" name="stake" required>
+
+        <button type="submit">Bahis Yap</button>
+    </form>
+
+    {% if winnings > 0 %}
+        <h2>Tebrikler! Kazancınız: {{ winnings }} TL</h2>
+    {% elif winnings == 0 and request.method == "POST" %}
+        <h2>Maalesef Kazanamadınız.</h2>
+    {% endif %}
+</body>
+</html>
